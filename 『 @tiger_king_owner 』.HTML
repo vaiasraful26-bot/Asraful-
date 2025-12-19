@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>『@tiger_king_owner』</title>
+<style>
+  html,body{
+    height:100%; margin:0; padding:0;
+    background:#000;
+    overflow:hidden;
+  }
+
+  iframe{
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    border:none;
+    z-index:1; /* UI এর নিচে থাকবে */
+  }
+
+  #uiContainer{
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:9999999; /* সবসময় উপরে */
+    pointer-events:none;
+  }
+
+  #loginBox, #modBox{
+    pointer-events:auto;
+    position:fixed;
+    cursor:move;
+    user-select:none;
+  }
+
+  #loginBox{
+    top:15px; left:15px;
+    width:115px; height:90px;
+    background:#0d0d1f;
+    border:3px solid #ff2eff;
+    border-radius:20px;
+    padding:8px 7px;
+    box-shadow:0 0 20px #ff00ff,0 0 45px #ff00ffcc,0 0 70px #ff00ff66;
+    text-align:center;
+  }
+
+  .title{
+    font-size:13.5px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#00ffff,#ff00ff);
+    -webkit-background-clip:text;
+    color:transparent;
+    margin:0 0 6px 0;
+  }
+
+  #pwd{
+    width:85px;
+    padding:4px;
+    background:#000;
+    border:2px solid #00ffff;
+    border-radius:10px;
+    color:white;
+    text-align:center;
+    font-size:10px;
+    margin:4px auto;
+    display:block;
+  }
+
+  #loginBtn{
+    width:85px;
+    padding:6px;
+    margin-top:6px;
+    background:linear-gradient(90deg,#00ffea,#00ffbb);
+    border:none;
+    border-radius:10px;
+    color:#000;
+    font-weight:bold;
+    font-size:12px;
+    cursor:pointer;
+  }
+
+  #modBox{
+    top:15px; right:15px;
+    width:118px;
+    background:#0f0f23;
+    border:2px solid #00eeff;
+    border-radius:18px;
+    padding:10px 8px;
+    box-shadow:0 0 20px #00ffff,0 0 35px #ff00ffaa;
+    text-align:center;
+    color:white;
+    display:none;
+  }
+
+  .mod-title{
+    font-size:14.5px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#00ffff,#ff33ff);
+    -webkit-background-clip:text;
+    color:transparent;
+  }
+
+  .time{font-size:10.5px;color:#aaffff;margin:4px 0 1px;}
+  .count{font-size:16.5px;font-weight:bold;color:#ffff00;}
+  .signal{font-size:21px;font-weight:bold;letter-spacing:1px;margin-top:3px;}
+</style>
+</head>
+<body>
+
+<!-- সব সময় পোরো স্ক্রিনে লোড হবে এবং interactive -->
+<iframe src="https://sikkimgame2.us.cc/#/register?invitationCode=538952025091"></iframe>
+
+<div id="uiContainer">
+  <div id="loginBox">
+    <div class="title">@tiger_king_owner</div>
+    <input id="pwd" type="password" placeholder="Password" autocomplete="off">
+    <button id="loginBtn" onclick="login()">Login</button>
+  </div>
+
+  <div id="modBox">
+    <div class="mod-title">『@tiger_king_owner』</div>
+    <div class="time" id="timeNow">00:00:00</div>
+    <div class="count" id="countDown">0s</div>
+    <div class="signal" id="signalText" style="color:#00ffc8;">SMALL.2</div>
+  </div>
+</div>
+
+<script>
+function login(){
+  if(pwd.value.trim() === "mobarok999"){
+    loginBox.style.display = "none";
+    modBox.style.display = "block";
+  } else {
+    alert("Wrong Password!");
+  }
+}
+
+/* লাইভ টাইম */
+setInterval(()=>{
+  timeNow.innerText = new Date().toLocaleTimeString("en-GB");
+},1000);
+
+/* লাইভ ৩০ সেকেন্ড কাউন্টডাউন + signal পরিবর্তন (সব নীল) */
+let prev30 = Math.floor(new Date().getSeconds() / 30);
+setInterval(()=>{
+  const now = new Date();
+  const sec = now.getSeconds();
+  const left = 30 - (sec % 30);
+  countDown.innerText = left + "s";
+
+  let curr30 = Math.floor(sec / 30);
+  if(curr30 !== prev30){
+    const signals = ["BIG.","SMALL"];
+    const rand = signals[Math.floor(Math.random()*signals.length)];
+    signalText.innerText = rand;
+    
+    // BIG / SMALL দুটোই নীল
+    signalText.style.color = "#00ffc8";
+    signalText.style.fontSize = "22px";
+    signalText.style.fontWeight = "bold";
+
+    prev30 = curr30;
+  }
+},200);
+
+/* ★ ড্র্যাগ ফাংশন (মোবাইল + ডেস্কটপ) ★ */
+function drag(el){
+  let offsetX=0, offsetY=0, isDown=false;
+
+  const startDrag = (x, y)=>{
+    const rect = el.getBoundingClientRect();
+    offsetX = x - rect.left;
+    offsetY = y - rect.top;
+    isDown = true;
+  };
+
+  const moveDrag = (x, y)=>{
+    if(!isDown) return;
+    el.style.left = (x - offsetX) + "px";
+    el.style.top  = (y - offsetY) + "px";
+  };
+
+  const endDrag = ()=>{ isDown=false; };
+
+  // mouse
+  el.addEventListener("mousedown", e=>{
+    if(e.target.tagName==="INPUT"||e.target.tagName==="BUTTON") return;
+    startDrag(e.clientX,e.clientY);
+  });
+  document.addEventListener("mousemove", e=>moveDrag(e.clientX,e.clientY));
+  document.addEventListener("mouseup", endDrag);
+
+  // touch
+  el.addEventListener("touchstart", e=>{
+    if(e.target.tagName==="INPUT"||e.target.tagName==="BUTTON") return;
+    const t = e.touches[0];
+    startDrag(t.clientX,t.clientY);
+  });
+  document.addEventListener("touchmove", e=>{
+    const t = e.touches[0];
+    moveDrag(t.clientX,t.clientY);
+  }, {passive:false});
+  document.addEventListener("touchend", endDrag);
+}
+
+drag(loginBox);
+drag(modBox);
+</script>
+
+</body>
+</html>
